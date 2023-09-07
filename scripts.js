@@ -1,7 +1,51 @@
-matches = books
+/**
+ * An Object literal which includes all the HTML elements that are referenced in
+ * the Javascript script and modules codebase. The elements are structured
+ * within sub-Object literals in order to create separation based on the type of
+ * function/ purpose they serve in the app. This object literal structure allows
+ * for Destructuring Assignment to be performed on it as well, which will result
+ * in cleaner and more readable code.
+ *
+ */
+const html = {
+	header: {
+		search: document.querySelector("data-header-search"),
+		settings: document.querySelector("data-header-settings"),
+	},
+	list: {
+		dialog: document.querySelector("data-list-active"),
+		items: document.querySelector("data-list-items"),
+		message: document.querySelector("data-list-message"),
+		title: document.querySelector("data-list-title"),
+		blur: document.querySelector("data-list-blur"),
+		image: document.querySelector("data-list-image"),
+		subtitle: document.querySelector("data-list-subtitle"),
+		description: document.querySelector("data-list-description"),
+		button: document.querySelector("data-list-button"),
+		close: document.querySelector("data-list-close"),
+	},
+	search: {
+		dialog: document.querySelector("data-search-overlay"),
+		form: document.querySelector("data-search-form"),
+		title: document.querySelector("data-search-title"),
+		genres: document.querySelector("data-search-genres"),
+		authors: document.querySelector("data-search-authors"),
+		cancel: document.querySelector("data-search-cancel"),
+		search: document.querySelector('button[form="search"]'),
+	},
+	settings: {
+		dialog: document.querySelector("data-settings-overlay"),
+		form: document.querySelector("data-settings-form"),
+		theme: document.querySelector("data-settings-theme"),
+		cancel: document.querySelector("data-settings-cancel"),
+		save: document.querySelector('button[form="settings"]'),
+	},
+};
+
+matches = books;
 page = 1;
 
-if (!books && !Array.isArray(books)) throw new Error('Source required') 
+if (!books && !Array.isArray(books)) throw new Error('Source required')
 if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
 
 day = {
@@ -108,10 +152,9 @@ data-search-form.click(filters) {
         if titleMatch && authorMatch && genreMatch => result.push(book)
     }
 
-    if display.length < 1 
+    if display.length < 1
     data-list-message.class.add('list__message_show')
     else data-list-message.class.remove('list__message_show')
-    
 
     data-list-items.innerHTML = ''
     const fragment = document.createDocumentFragment()
@@ -129,7 +172,7 @@ data-search-form.click(filters) {
                 class="preview__image"
                 src="${image}"
             />
-            
+
             <div class="preview__info">
                 <h3 class="preview__title">${title}</h3>
                 <div class="preview__author">${authors[authorId]}</div>
@@ -138,7 +181,7 @@ data-search-form.click(filters) {
 
         fragment.appendChild(element)
     }
-    
+
     data-list-items.appendChild(fragments)
     initial === matches.length - [page * BOOKS_PER_PAGE]
     remaining === hasRemaining ? initial : 0
@@ -169,17 +212,17 @@ data-list-items.click() {
     for (node; pathArray; i++) {
         if active break;
         const previewId = node?.dataset?.preview
-    
+
         for (const singleBook of books) {
             if (singleBook.id === id) active = singleBook
-        } 
+        }
     }
-    
+
     if !active return
     data-list-active.open === true
     data-list-blur + data-list-image === active.image
     data-list-title === active.title
-    
+
     data-list-subtitle === '${authors[active.author]} (${Date(active.published).year})'
     data-list-description === active.description
 }
