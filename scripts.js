@@ -42,6 +42,37 @@ const html = {
 	},
 };
 
+const {
+	header: { search: searchButton, settings: settingsButton },
+	list: {
+		dialog: listDialog,
+		items: listItems,
+		message: message,
+		title: title,
+		blur: blur,
+		image: image,
+		subtitle: subtitle,
+		description: description,
+		button: listButton,
+		close: closeList,
+	},
+	search: {
+		dialog: searchDialog,
+		form: searchForm,
+		title: searchTitle,
+		genres: searchGenres,
+		authors: searchAuthors,
+		cancel: cancelSearch,
+	},
+	settings: {
+		dialog: settingsDialog,
+		form: settingsForm,
+		theme: settingsTheme,
+		cancel: cancelSettings,
+		save: saveSettings,
+	},
+} = html;
+
 matches = books;
 page = 1;
 
