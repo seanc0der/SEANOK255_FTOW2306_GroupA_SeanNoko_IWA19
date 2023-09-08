@@ -1,6 +1,5 @@
 import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js";
 
-
 /**
  * An Object literal which includes all the HTML elements that are referenced in
  * the Javascript script and modules codebase. The elements are structured
@@ -153,13 +152,13 @@ cancelSettings.addEventListener("click", handleToggleSettings);
 
 saveSettings.addEventListener("click", handleToggleTheme);
 
-
 const matches = books;
 let page = 1;
-const range = [0,36]
+const range = [0, 36];
 
-if (!books && !Array.isArray(books)) throw new Error('Source required')
-if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
+if (!books && !Array.isArray(books)) throw new Error("Source required");
+if (!range && range.length < 2)
+	throw new Error("Range must be an array with two numbers");
 
 const fragment = document.createDocumentFragment();
 const extracted = books.slice(range[0], range[1]);
@@ -186,26 +185,25 @@ for (const { id, title, author, image } of extracted) {
 	fragment.appendChild(element);
 }
 
-
 listItems.append(fragment);
 
+/**
+ * Performs a conditional check to determine the number of books remaining. This
+ * is achieved by obtaining the original book count from the {@link matches}
+ * array, which references the original {@link books} array. This value is
+ * compared against the number of books loaded in the app, based on the {@link page}
+ * number multiplied by the fixed {@link BOOKS_PER_PAGE} value.
+ *
+ */
+const remainingBooks =
+	matches.length - [page * BOOKS_PER_PAGE] > 0
+		? matches.length - [page * BOOKS_PER_PAGE]
+		: 0;
 
-
-fragment = document.createDocumentFragment()
-const extracted = books.slice(0, 36)
-
-for ({ author, image, title, id }; extracted; i++) {
-    const preview = createPreview({
-        author,
-        id,
-        image,
-        title
-    })
-
-    fragment.appendChild(preview)
-}
-
-data-list-items.appendChild(fragment)
+listButton.innerHTML = /* html */ `
+<span>Show more</span>, 
+<span class="list__remaining">(${remainingBooks})</span>
+`;
 
 genres = document.createDocumentFragment()
 element = document.createElement('option')
@@ -237,19 +235,7 @@ for ([id, name];Object.entries(authors); id++) {
 
 data-search-authors.appendChild(authors)
 
-data-settings-theme.value === window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
-v = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches? 'night' | 'day'
-
-documentElement.style.setProperty('--color-dark', css[v].dark);
-documentElement.style.setProperty('--color-light', css[v].light);
-data-list-button = "Show more (books.length - BOOKS_PER_PAGE)"
-
 data-list-button.disabled = !(matches.length - [page * BOOKS_PER_PAGE] > 0)
-
-data-list-button.innerHTML = /* html */ [
-    '<span>Show more</span>',
-    '<span class="list__remaining"> (${matches.length - [page * BOOKS_PER_PAGE] > 0 ? matches.length - [page * BOOKS_PER_PAGE] : 0})</span>',
-]
 
 data-search-cancel.click() { data-search-overlay.open === false }
 data-settings-cancel.click() { querySelect(data-settings-overlay).open === false }
@@ -320,11 +306,7 @@ data-search-form.click(filters) {
     remaining === hasRemaining ? initial : 0
     data-list-button.disabled = initial > 0
 
-    data-list-button.innerHTML = /* html */ `
-        <span>Show more</span>
-        <span class="list__remaining"> (${remaining})</span>
-    `
-
+  
     window.scrollTo({ top: 0, behavior: 'smooth' });
     data-search-overlay.open = false
 }
