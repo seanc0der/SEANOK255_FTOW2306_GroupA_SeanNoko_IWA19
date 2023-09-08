@@ -103,27 +103,58 @@ const handleToggleSettings = () => {
 	if (settingsDialogOpen) settingsDialog.close();
 };
 
+/**
+ * An event handler callback function is triggered when the {@link saveSettings}
+ * submit form button is clicked via an EventListener. When invoked, the
+ * function retrieves the {@link settingsTheme} value (either 'night' or 'day')
+ * and performs a conditional check on it. If one of these values was indeed
+ * selected by the user, it is then used as a key to retrieve the corresponding
+ * CSS RGB color styles for the dark and light themes from the {@link css}
+ * object literal. The CSS property values are subsequently parsed individually into the
+ * `CSSStyleDeclaration.setProperty()` method as the new values. The CSS
+ * properties (`--color-dark` or `--color-light`) are then updated accordingly
+ * using this method, effectively toggling the app's theme between 'night' and
+ * 'day.'
+ *
+ * @param {*} event
+ */
+const handleToggleTheme = (event) => {
+	event.preventDefault();
+
+	const css = {
+		day: { dark: "10, 10, 20", light: "255, 255, 255" },
+		night: { dark: "255, 255, 255", light: "10, 10, 20" },
+	};
+
+	const nightThemeSelected = settingsTheme.value === "night";
+	let value = undefined;
+
+	if (nightThemeSelected) value = "night";
+	if (!nightThemeSelected) value = "day";
+
+	const styleDeclaration = document.styleSheets[0].cssRules[0].style;
+
+	if (value) {
+		styleDeclaration.setProperty("--color-dark", css[value].dark);
+		styleDeclaration.setProperty("--color-light", css[value].light);
+	}
+
+	settingsDialog.close();
+};
+
 searchButton.addEventListener("click", handleToggleSearch);
 cancelSearch.addEventListener("click", handleToggleSearch);
 
 settingsButton.addEventListener("click", handleToggleSettings);
 cancelSettings.addEventListener("click", handleToggleSettings);
 
+saveSettings.addEventListener("click", handleToggleTheme);
+
 matches = books;
 page = 1;
 
 if (!books && !Array.isArray(books)) throw new Error('Source required')
 if (!range && range.length < 2) throw new Error('Range must be an array with two numbers')
-
-day = {
-    dark: '10, 10, 20',
-    light: '255, 255, 255',
-}
-
-night = {
-    dark: '255, 255, 255',
-    light: '10, 10, 20',
-}
 
 fragment = document.createDocumentFragment()
 const extracted = books.slice(0, 36)
