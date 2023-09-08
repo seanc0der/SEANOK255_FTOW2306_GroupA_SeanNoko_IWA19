@@ -87,8 +87,27 @@ const handleToggleSearch = () => {
 	if (searchDialogOpen) searchDialog.close();
 };
 
+/**
+ * This Event Handler callback function works exactly the same as the
+ * {@link handleToggleSearch} funtion. However, the dialog element that is being
+ * worked on is the {@link settingsDialog}, which will be displayed as a modal
+ * or closed based on the triggering of the {@link settingsButton} or
+ * {@link cancelSettings} button elements.
+ *
+ *
+ */
+const handleToggleSettings = () => {
+	const settingsDialogOpen = settingsDialog.open;
+
+	if (!settingsDialogOpen) settingsDialog.showModal();
+	if (settingsDialogOpen) settingsDialog.close();
+};
+
 searchButton.addEventListener("click", handleToggleSearch);
 cancelSearch.addEventListener("click", handleToggleSearch);
+
+settingsButton.addEventListener("click", handleToggleSettings);
+cancelSettings.addEventListener("click", handleToggleSettings);
 
 matches = books;
 page = 1;
