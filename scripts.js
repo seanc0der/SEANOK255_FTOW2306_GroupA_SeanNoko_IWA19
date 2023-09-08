@@ -1,3 +1,6 @@
+import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js"; 
+
+
 /**
  * An Object literal which includes all the HTML elements that are referenced in
  * the Javascript script and modules codebase. The elements are structured
