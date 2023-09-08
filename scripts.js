@@ -9,35 +9,35 @@
  */
 const html = {
 	header: {
-		search: document.querySelector("data-header-search"),
-		settings: document.querySelector("data-header-settings"),
+		search: document.querySelector("[data-header-search]"),
+		settings: document.querySelector("[data-header-settings]"),
 	},
 	list: {
-		dialog: document.querySelector("data-list-active"),
-		items: document.querySelector("data-list-items"),
-		message: document.querySelector("data-list-message"),
-		title: document.querySelector("data-list-title"),
-		blur: document.querySelector("data-list-blur"),
-		image: document.querySelector("data-list-image"),
-		subtitle: document.querySelector("data-list-subtitle"),
-		description: document.querySelector("data-list-description"),
-		button: document.querySelector("data-list-button"),
-		close: document.querySelector("data-list-close"),
+		dialog: document.querySelector("[data-list-active]"),
+		items: document.querySelector("[data-list-items]"),
+		message: document.querySelector("[data-list-message]"),
+		title: document.querySelector("[data-list-title]"),
+		blur: document.querySelector("[data-list-blur]"),
+		image: document.querySelector("[data-list-image]"),
+		subtitle: document.querySelector("[data-list-subtitle]"),
+		description: document.querySelector("[data-list-description]"),
+		button: document.querySelector("[data-list-button]"),
+		close: document.querySelector("[data-list-close]"),
 	},
 	search: {
-		dialog: document.querySelector("data-search-overlay"),
-		form: document.querySelector("data-search-form"),
-		title: document.querySelector("data-search-title"),
-		genres: document.querySelector("data-search-genres"),
-		authors: document.querySelector("data-search-authors"),
-		cancel: document.querySelector("data-search-cancel"),
+		dialog: document.querySelector("[data-search-overlay]"),
+		form: document.querySelector("[data-search-form]"),
+		title: document.querySelector("[data-search-title]"),
+		genres: document.querySelector("[data-search-genres]"),
+		authors: document.querySelector("[data-search-authors]"),
+		cancel: document.querySelector("[data-search-cancel]"),
 		search: document.querySelector('button[form="search"]'),
 	},
 	settings: {
-		dialog: document.querySelector("data-settings-overlay"),
-		form: document.querySelector("data-settings-form"),
-		theme: document.querySelector("data-settings-theme"),
-		cancel: document.querySelector("data-settings-cancel"),
+		dialog: document.querySelector("[data-settings-overlay]"),
+		form: document.querySelector("[data-settings-form]"),
+		theme: document.querySelector("[data-settings-theme]"),
+		cancel: document.querySelector("[data-settings-cancel]"),
 		save: document.querySelector('button[form="settings"]'),
 	},
 };
@@ -72,6 +72,23 @@ const {
 		save: saveSettings,
 	},
 } = html;
+
+/**
+ * An Event Handler callback function that is triggered when the `searchButton`
+ * or `cancelSearch` HTML button elements are fired by a click EventListener.
+ * When called, the function checks whether or not the `searchDialog` is open or
+ * not, if it's not, the `showModal()` method is used to display it as modal on
+ * the screen, otherwise it is closed.
+ */
+const handleToggleSearch = () => {
+	const searchDialogOpen = searchDialog.open;
+
+	if (!searchDialogOpen) searchDialog.showModal();
+	if (searchDialogOpen) searchDialog.close();
+};
+
+searchButton.addEventListener("click", handleToggleSearch);
+cancelSearch.addEventListener("click", handleToggleSearch);
 
 matches = books;
 page = 1;
