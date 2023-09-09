@@ -303,22 +303,44 @@ const createGenresFragment = (genresSourceObj) => {
  */
 createGenresFragment(genres);
 
+/**
+ * Accepts an object literal containing a collection of authors, in this case,
+ * the {@link authors} object. The function works the same way as the
+ * {@link createGenresFragment} function with respect to creating a document
+ * fragment of `option` elements, before appending the document fragment to the
+ * {@link searchAuthors} HTML element.
+ *
+ * @param {object} authorsSourceObj The authors object containing a list of
+ * authors (properties), where each key represents a unique ID and its
+ * corresponding value represents the name of the genre. These will be iterated
+ * over via a `for...of` loop in the function's logic.
+ */
+const createAuthorsFragment = (authorsSourceObj) => {
+	const fragment = document.createDocumentFragment();
+
+	const mainOptionElement = document.createElement("option");
+	mainOptionElement.value = "any";
+	mainOptionElement.textContent = "All Authors";
+	fragment.appendChild(mainOptionElement);
+
+	for (const [, authorName] of Object.entries(authorsSourceObj)) {
+		const optionElement = document.createElement("option");
+		optionElement.value = authorName.toLowerCase();
+		optionElement.textContent = authorName;
+
+		fragment.appendChild(optionElement);
+	}
+
+	searchAuthors.appendChild(fragment);
+};
+
+/*
+ * When the app loads, the function is manually called and the authors field
+ * under the search dialog is updated accordingly.
+ */
+createAuthorsFragment(authors);
 
 
-authors = document.createDocumentFragment()
-element = document.createElement('option')
-element.value = 'any'
-element.innerText = 'All Authors'
-authors.appendChild(element)
-
-for ([id, name];Object.entries(authors); id++) {
-    document.createElement('option')
-    element.value = value
-    element = text
-    authors.appendChild(element)
-}
-
-data-search-authors.appendChild(authors)
 
 data-list-button.disabled = !(matches.length - [page * BOOKS_PER_PAGE] > 0)
 
