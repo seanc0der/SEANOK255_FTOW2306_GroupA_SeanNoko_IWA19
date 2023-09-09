@@ -204,11 +204,11 @@ const createPreviewsFragment = (source, indexRange, pageNum) => {
 	for (const { id, title, author, image } of extracted) {
 		const authorId = author;
 
-		const element = document.createElement("button");
-		element.classList.add("preview");
-		element.setAttribute("data-preview", id);
+		const buttonElement = document.createElement("button");
+		buttonElement.classList.add("preview");
+		buttonElement.setAttribute("data-preview", id);
 
-		element.innerHTML = /* html */ `
+		buttonElement.innerHTML = /* html */ `
 			<img
 				class="preview__image"
 				src="${image}"
@@ -220,7 +220,7 @@ const createPreviewsFragment = (source, indexRange, pageNum) => {
 			</div>
 		`;
 
-		fragment.appendChild(element);
+		fragment.appendChild(buttonElement);
 	}
 
 	listItems.appendChild(fragment);
@@ -261,6 +261,13 @@ createPreviewsFragment(matches, range, page);
 listButton.addEventListener("click", () => {
 	createPreviewsFragment(matches, range, page);
 });
+
+
+
+
+const createGenresFragment = () => {
+	ge
+}
 
 genres = document.createDocumentFragment()
 element = document.createElement('option')
