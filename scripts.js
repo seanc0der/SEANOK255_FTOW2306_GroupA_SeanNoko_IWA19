@@ -275,7 +275,7 @@ listButton.addEventListener("click", () => {
  *
  * @param {Object} genresSourceObj The genres object containing a list of genres
  * (properties), where each key represents a unique ID and its corresponding value
- * represents the name of the genre. These will be iterated over via a `for...in`
+ * represents the name of the genre. These will be iterated over via a `for...of`
  * loop in the function's logic.
  */
 const createGenresFragment = (genresSourceObj) => {
@@ -286,9 +286,7 @@ const createGenresFragment = (genresSourceObj) => {
 	mainOptionElement.textContent = "All Genres";
 	fragment.appendChild(mainOptionElement);
 
-	for (const genreId in genresSourceObj) {
-		const genreName = genresSourceObj[genreId];
-
+	for (const [, genreName] of Object.entries(genresSourceObj)) {
 		const optionElement = document.createElement("option");
 		optionElement.value = genreName.toLowerCase();
 		optionElement.textContent = genreName;
