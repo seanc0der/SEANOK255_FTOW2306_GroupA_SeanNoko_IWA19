@@ -227,7 +227,7 @@ const createPreviewsFragment = (source, indexRange, pageNum) => {
 
 	page = pageNum + 1;
 	updateRange();
-	updateRemaining();
+	updateRemainingBooks();
 };
 
 /**
@@ -236,20 +236,30 @@ const createPreviewsFragment = (source, indexRange, pageNum) => {
  * array, which references the original {@link books} array. This value is
  * compared against the number of books loaded in the app, based on the
  * {@link page} number multiplied by the fixed {@link BOOKS_PER_PAGE} value. The
- * result is then appended on the {@link listButton} innerHTML and is reflected
- * to the user.
+ * result is then appended on the {@link listButton} HTML text and is reflected
+ * to the user. If there aren't anymore books remaining the function will invoke
+ * the {@link disableListButton} function.
  *
  */
-const updateRemaining = () => {
-	const remainingBooks =
-		matches.length - [page * BOOKS_PER_PAGE] > 0
-			? matches.length - [page * BOOKS_PER_PAGE]
-			: 0;
+const updateRemainingBooks = () => {
+	const checkBooks = matches.length - [page * BOOKS_PER_PAGE];
+	const remainingBooks = checkBooks > 0 ? checkBooks : 0;
 
 	listButton.innerHTML = /* html */ `
-<span>Show more</span>, 
-<span class="list__remaining">(${remainingBooks})</span>
-`;
+		<span>Show more</span>, 
+		<span class="list__remaining">(${remainingBooks})</span>
+	`;
+
+	if (remainingBooks === 0) disableListButton();
+};
+
+/**
+ * The function disables the {@link listButton} when invoked by the
+ * {@link updateRemainingBooks} function. This will only occur when there are
+ * zero books remaining to load in the app.
+ */
+const disableListButton = () => {
+	listButton.disabled = true;
 };
 
 /*
@@ -340,25 +350,7 @@ const createAuthorsFragment = (authorsSourceObj) => {
  */
 createAuthorsFragment(authors);
 
-
-
 data-list-button.disabled = !(matches.length - [page * BOOKS_PER_PAGE] > 0)
-
-data-search-cancel.click() { data-search-overlay.open === false }
-data-settings-cancel.click() { querySelect(data-settings-overlay).open === false }
-data-settings-form.submit() { actions.settings.submit }
-data-list-close.click() { data-list-active.open === false }
-
-data-list-button.click() {
-    document.querySelector([data-list-items]).appendChild(createPreviewsFragment(matches, page x BOOKS_PER_PAGE, {page + 1} x BOOKS_PER_PAGE]))
-    actions.list.updateRemaining()
-    page = page + 1
-}
-
-data-header-search.click() {
-    data-search-overlay.open === true ;
-    data-search-title.focus();
-}
 
 data-search-form.click(filters) {
     preventDefault()
