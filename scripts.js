@@ -262,27 +262,50 @@ listButton.addEventListener("click", () => {
 	createPreviewsFragment(matches, range, page);
 });
 
+/**
+ * Accepts an object literal containing a collection of genres, in this case, the
+ * {@link genres} object. The function first creates a main `option` element,
+ * which serves as the default option visible to the user when the {@link searchDialog}
+ * is displayed, and adds it to a document fragment. Next, the genres object is
+ * iterated over, and the same process of creating an `option` element is followed.
+ * However, with each iteration, the `option` element's `value` attribute and its
+ * HTML text are set to the genre's name (property value) before being added to the
+ * document fragment. After iterating through the parsed genres object, the document
+ * fragment is appended to the {@link searchGenres} HTML element.
+ *
+ * @param {Object} genresSourceObj The genres object containing a list of genres
+ * (properties), where each key represents a unique ID and its corresponding value
+ * represents the name of the genre. These will be iterated over via a `for...in`
+ * loop in the function's logic.
+ */
+const createGenresFragment = (genresSourceObj) => {
+	const fragment = document.createDocumentFragment();
+
+	const mainOptionElement = document.createElement("option");
+	mainOptionElement.value = "any";
+	mainOptionElement.textContent = "All Genres";
+	fragment.appendChild(mainOptionElement);
+
+	for (const genreId in genresSourceObj) {
+		const genreName = genresSourceObj[genreId];
+
+		const optionElement = document.createElement("option");
+		optionElement.value = genreName.toLowerCase();
+		optionElement.textContent = genreName;
+
+		fragment.appendChild(optionElement);
+	}
+
+	searchGenres.appendChild(fragment);
+};
+
+/*
+ * When the app loads, the function is manually called and the genres field
+ * under the search dialog is prepended accordingly.
+ */
+createGenresFragment(genres);
 
 
-
-const createGenresFragment = () => {
-	ge
-}
-
-genres = document.createDocumentFragment()
-element = document.createElement('option')
-element.value = 'any'
-element = 'All Genres'
-genres.appendChild(element)
-
-for ([id, name]; Object.entries(genres); i++) {
-    document.createElement('option')
-    element.value = value
-    element.innerText = text
-    genres.appendChild(element)
-}
-
-data-search-genres.appendChild(genres)
 
 authors = document.createDocumentFragment()
 element = document.createElement('option')
