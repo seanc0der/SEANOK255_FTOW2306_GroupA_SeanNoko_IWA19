@@ -154,56 +154,113 @@ saveSettings.addEventListener("click", handleToggleTheme);
 
 const matches = books;
 let page = 1;
-const range = [0, 36];
+const range = [0, BOOKS_PER_PAGE];
 
 if (!books && !Array.isArray(books)) throw new Error("Source required");
 if (!range && range.length < 2)
 	throw new Error("Range must be an array with two numbers");
 
-const fragment = document.createDocumentFragment();
-const extracted = books.slice(range[0], range[1]);
+/**
+ * When called, the {@link range} array's values are updated accordingly. By
+ * default the range array is set to `[0, BOOKS_PER_PAGE]`, and with each call
+ * the numbers are incremented by the {@link BOOKS_PER_PAGE} value.
+ */
+const updateRange = () => {
+	let startNumber = range[0];
+	let endNumber = range[1];
 
-for (const { id, title, author, image } of extracted) {
-	const authorId = author;
+	range[0] = startNumber + BOOKS_PER_PAGE;
+	range[1] = endNumber + BOOKS_PER_PAGE;
+};
 
-	const element = document.createElement("button");
-	element.classList.add("preview");
-	element.setAttribute("data-preview", id);
+/**
+ * An event handler callback function triggered by a click of the
+ * {@link listButton}. When called, it extracts a specific range of book entries
+ * (elements) from the {@link source} book array. Using a `for...of` loop, it
+ * extracts each book's (`id`, `title`, `author`, and `image`) values. A button
+ * element is created, and the values are parsed as `class` or `data` attributes
+ * and `innerHTML` content. Each button created during the iteration is then
+ * appended to the {@link fragment} document fragment. After the iteration is
+ * complete, the {@link fragment} is appended to the {@link listItems}, and the
+ * added books are reflected to the user. The function also increments the
+ * {@link page} by 1 and calls the {@link updateRange} function to update the
+ * range for the next call.
+ *
+ * @param {Array} source The books array or a reference to the array from which
+ * a portion of its elements (book entries) will be extracted using the
+ * `slice()` method.
+ *
+ * @param {Array} indexRange An array with 2 numbers to be passed to the
+ * `slice()` method as the start and end indexes.
+ *
+ * @param {number} pageNum The current page number of the app (default is 1). With
+ * each function call (click of the {@link listButton}), the page variable is
+ * incremented by 1.
+ */
+const createPreviewsFragment = (source, indexRange, pageNum) => {
+	const fragment = document.createDocumentFragment();
+	const extracted = source.slice(indexRange[0], indexRange[1]);
 
-	element.innerHTML = /* html */ `
-		<img
-			class="preview__image"
-			src="${image}"
-		/>
+	for (const { id, title, author, image } of extracted) {
+		const authorId = author;
 
-		<div class="preview__info>
-			<h3 class="preview__title">${title}</h3>
-			<div class="preview__author">${authors[authorId]}</div>
-		</div>
-	`;
+		const element = document.createElement("button");
+		element.classList.add("preview");
+		element.setAttribute("data-preview", id);
 
-	fragment.appendChild(element);
-}
+		element.innerHTML = /* html */ `
+			<img
+				class="preview__image"
+				src="${image}"
+			/>
+	
+			<div class="preview__info>
+				<h3 class="preview__title">${title}</h3>
+				<div class="preview__author">${authors[authorId]}</div>
+			</div>
+		`;
 
-listItems.append(fragment);
+		fragment.appendChild(element);
+	}
+
+	listItems.appendChild(fragment);
+
+	page = pageNum + 1;
+	updateRange();
+	updateRemaining();
+};
 
 /**
  * Performs a conditional check to determine the number of books remaining. This
  * is achieved by obtaining the original book count from the {@link matches}
  * array, which references the original {@link books} array. This value is
- * compared against the number of books loaded in the app, based on the {@link page}
- * number multiplied by the fixed {@link BOOKS_PER_PAGE} value.
+ * compared against the number of books loaded in the app, based on the
+ * {@link page} number multiplied by the fixed {@link BOOKS_PER_PAGE} value. The
+ * result is then appended on the {@link listButton} innerHTML and is reflected
+ * to the user.
  *
  */
-const remainingBooks =
-	matches.length - [page * BOOKS_PER_PAGE] > 0
-		? matches.length - [page * BOOKS_PER_PAGE]
-		: 0;
+const updateRemaining = () => {
+	const remainingBooks =
+		matches.length - [page * BOOKS_PER_PAGE] > 0
+			? matches.length - [page * BOOKS_PER_PAGE]
+			: 0;
 
-listButton.innerHTML = /* html */ `
+	listButton.innerHTML = /* html */ `
 <span>Show more</span>, 
 <span class="list__remaining">(${remainingBooks})</span>
 `;
+};
+
+/*
+ * When the app loads, the function is manually called and creates the first
+ * page's books, Thereafter, the function is called via a click EventListener.
+ */
+createPreviewsFragment(matches, range, page);
+
+listButton.addEventListener("click", () => {
+	createPreviewsFragment(matches, range, page);
+});
 
 genres = document.createDocumentFragment()
 element = document.createElement('option')
@@ -306,18 +363,8 @@ data-search-form.click(filters) {
     remaining === hasRemaining ? initial : 0
     data-list-button.disabled = initial > 0
 
-  
     window.scrollTo({ top: 0, behavior: 'smooth' });
     data-search-overlay.open = false
-}
-
-data-settings-overlay.submit; {
-    preventDefault()
-    const formData = new FormData(event.target)
-    const result = Object.fromEntries(formData)
-    document.documentElement.style.setProperty('--color-dark', css[result.theme].dark);
-    document.documentElement.style.setProperty('--color-light', css[result.theme].light);
-    data-settings-overlay).open === false
 }
 
 data-list-items.click() {
