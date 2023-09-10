@@ -425,3 +425,14 @@ const handleOpenBookDialog = (event) => {
 };
 
 listItems.addEventListener("click", handleOpenBookDialog);
+
+/**
+ * An event handler callback function triggered when the {@link closeList}
+ * cancel button element in the {@link listDialog} book preview dialog is
+ * clicked, firing a click event listener.
+ */
+const handleCloseBookDialog = () => {
+	listDialog.close();
+};
+
+closeList.addEventListener("click", handleCloseBookDialog);
