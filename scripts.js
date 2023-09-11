@@ -1,3 +1,14 @@
+{
+    "source": {
+        "include": [".C:\Users\P50\MyCodeSpaceProjects\interactive-web-apps\IWA19\scripts.js"],
+        "exclude": ["node_modules/"]
+    },
+    "opts": {
+        "destination": "out/"
+    }
+}
+
+
 import { BOOKS_PER_PAGE, authors, genres, books } from "./data.js";
 
 /**
@@ -349,37 +360,6 @@ const createAuthorsFragment = (authorsSourceObj) => {
  * under the search dialog is updated accordingly.
  */
 createAuthorsFragment(authors);
-
-// data-search-form.click(filters) {
-//     preventDefault()
-//     const formData = new FormData(event.target)
-//     const filters = Object.fromEntries(formData)
-//     result = []
-
-//     for (book; booksList; i++) {
-//         titleMatch = filters.title.trim() = '' && book.title.toLowerCase().includes[filters.title.toLowerCase()]
-//         authorMatch = filters.author = 'any' || book.author === filters.author
-
-//         {
-//             genreMatch = filters.genre = 'any'
-//             for (genre; book.genres; i++) { if singleGenre = filters.genre { genreMatch === true }}}
-//         }
-
-//         if titleMatch && authorMatch && genreMatch => result.push(book)
-//     }
-
-//     if display.length < 1
-//     data-list-message.class.add('list__message_show')
-//     else data-list-message.class.remove('list__message_show')
-
-//     data-list-items.appendChild(fragments)
-//     initial === matches.length - [page * BOOKS_PER_PAGE]
-//     remaining === hasRemaining ? initial : 0
-//     data-list-button.disabled = initial > 0
-// 		window.scrollTo({ top: 0, behavior: "smooth" });
-// 		searchDialog.open = false;
-
-// }
 
 /**
  * The callback function is triggered by a click event listener when any of the
